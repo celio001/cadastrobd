@@ -18,7 +18,7 @@ class Menu():
             exit()
 
     def login(self):
-        print('Bem-vindo a area de registro!')
+        print('Bem-vindo a area de login!')
         self.email = input('Inserir e-mail:')
         self.senha = input('Inserir senha:')
     
@@ -32,10 +32,28 @@ class Menu():
         self.email = input('E-mail: ')
         self.senha = input('Senha: ')
         self.cpf = input('CPF: ')
+        self.cpfverificado = self.verificarCpf(self.cpf)
         self.cargo = input('Cargo: ')
         
-        self.cadastrar = ConsultaUsuarios
-        self.cadastrar.cadastrarUsuario(self.nome,self.email,self.senha,self.cpf, self.cargo)
+        #self.cadastrar = ConsultaUsuarios
+        #self.cadastrar.cadastrarUsuario(self.nome,self.email,self.senha,self.cpf, self.cargo)
+
+    def verificarCpf(self, cpf):
+            self.cpf = cpf
+            while self.cpf.isdigit() is not True:
+                if not self.cpf.isdigit():
+                    print('Digitar apenas números!')
+                self.cpf = input('CPF: ')
+                     
+            while True:
+                if len(self.cpf) == 11:
+                    break
+                else:
+                    print('O cpf conter apenas 11 digitos')
+                    self.cpf = input('CPF: ')
+            return int(self.cpf)
+
+
 
 iniciar = Menu()
 iniciar.cadastrarUsuarios()
