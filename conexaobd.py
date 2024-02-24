@@ -28,7 +28,23 @@ class ConsultaUsuarios:
     
         self.conexao.commit()
         self.conexao.close()
+    
+    def exibirUsuario(self, cpf):
+        self.usuario = self.sql.execute(f'select * from usuario where CPF="{cpf}"')
+        self.resultado = self.usuario.fetchall()# recuperar todas as linhas do resultado
+        if not self.resultado:  # Verifica se a lista de resultados está vazia
+            return print('Nenhum usuário encontrado para o CPF fornecido.')
+        else:
+            for self.a in self.resultado:
+                    nome, email, senha, cpf, cargo = self.a
+                    print('\n')
+                    print(f"Nome: {nome}")
+                    print(f"Email: {email}")
+                    print(f"Senha: {senha}")
+                    print(f"CPF: {cpf}")
+                    print(f"Cargo: {cargo}")
+
 
 if __name__ == '__main__':
     iniciar = ConsultaUsuarios()
-    iniciar.cadastrarUsuario()
+    iniciar.exibirUsuario(80289002087)

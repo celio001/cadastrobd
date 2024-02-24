@@ -4,6 +4,7 @@ import os
 class Menu():
     def __init__(self):
         os.system('cls')
+        self.bd = ConsultaUsuarios()
 
     def menu1(self):
         print('Bem-vindo ao sistema UserRegistry \n')
@@ -23,8 +24,7 @@ class Menu():
         self.senha = input('Inserir senha:')
     
     def exibirusUsuarios(self):
-        consulta = ConsultaUsuarios()
-        return consulta.Usuariosdb()
+        return self.bd.Usuariosdb()
     
     def cadastrarUsuarios(self):
         print('[ Area de cadastro de usuarios ]')
@@ -35,9 +35,8 @@ class Menu():
         self.cpfverificado = self.verificarCpf(self.cpf)
         self.cargo = input('Cargo: ')
         
-        #self.cadastrar = ConsultaUsuarios
-        #self.cadastrar.cadastrarUsuario(self.nome,self.email,self.senha,self.cpf, self.cargo)
-
+        self.bd.cadastrarUsuario(self.nome,self.email,self.senha,self.cpf, self.cargo)
+        
     def verificarCpf(self, cpf):
             self.cpf = cpf
             while self.cpf.isdigit() is not True:
@@ -52,8 +51,15 @@ class Menu():
                     print('O cpf conter apenas 11 digitos')
                     self.cpf = input('CPF: ')
             return int(self.cpf)
+    
+    def consultarUsuario(self):
+        print('[ Area consulta de usuario ]')
+        self.usuario = input('Digitar cpf do usuario para consulta')
+        self.cpfvalido = self.verificarCpf(self.usuario)
+        self.bd.exibirUsuario(self.cpfvalido)
 
 
 
-iniciar = Menu()
-iniciar.cadastrarUsuarios()
+if __name__ == '__main__':
+    iniciar = Menu()
+    iniciar.consultarUsuario()
