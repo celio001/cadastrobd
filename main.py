@@ -4,11 +4,11 @@ import os
 class Menu():
     def __init__(self):
         os.system('cls')
-        self.bd = ConsultaUsuarios()
+        self.db = ConsultaUsuarios()
 
     def menu1(self):
         print('Bem-vindo ao sistema UserRegistry \n')
-        self.opcaomn1 = int(input('Digite o número do que deseja fazer: \n (1)logar\n (2)Sair\n'))
+        self.opcaomn1 = int(input('Digite o número do que deseja fazer: \n (1)logar\n (2)Cadastrar\n (3)Sair\n Digite: '))
         while self.opcaomn1 <= 0 or self.opcaomn1 >= 3:
             print('!! Digitar uma opção valida !!')
             self.opcaomn1 = input('Digite o número do que deseja fazer: \n (1)logar\n (2)Sair\n')
@@ -16,15 +16,31 @@ class Menu():
         if self.opcaomn1 == 1:
             self.login()
         elif self.opcaomn1 == 2:
-            exit()
+            pass
 
     def login(self):
-        print('Bem-vindo a area de login!')
+        print('\nBem-vindo a area de login!')
         self.email = input('Inserir e-mail:')
         self.senha = input('Inserir senha:')
+        self.relogin = self.db.logar(self.email, self.senha)
+        if not self.relogin:#Se o banco não retornar valor
+            self.tentativas = 3
+            #Laço de tentativas de login
+            for self.tentativa in range (self.tentativas):
+                self.tentativa+=1
+                if not self.relogin:
+                    if self.tentativa <= 2:
+                        print('\n[ Usuario não encontrado ]')
+                        self.email = input('Inserir e-mail:')
+                        self.senha = input('Inserir senha:')
+                        self.relogin = self.db.logar(self.email, self.senha)
+                else:
+                    pass
+        else:
+            print('Login realizado com sucesso!')
     
     def exibirusUsuarios(self):
-        return self.bd.Usuariosdb()
+        return self.db.Usuariosdb()
     
     def cadastrarUsuarios(self):
         print('[ Area de cadastro de usuarios ]')
@@ -35,7 +51,7 @@ class Menu():
         self.cpfverificado = self.verificarCpf(self.cpf)
         self.cargo = input('Cargo: ')
         
-        self.bd.cadastrarUsuario(self.nome,self.email,self.senha,self.cpf, self.cargo)
+        self.db.cadastrarUsuario(self.nome,self.email,self.senha,self.cpf, self.cargo)
         
     def verificarCpf(self, cpf):
             self.cpf = cpf
@@ -56,10 +72,10 @@ class Menu():
         print('[ Area consulta de usuario ]')
         self.usuario = input('Digitar cpf do usuario para consulta')
         self.cpfvalido = self.verificarCpf(self.usuario)
-        self.bd.exibirUsuario(self.cpfvalido)
+        self.db.exibirUsuario(self.cpfvalido)
 
 
 
 if __name__ == '__main__':
     iniciar = Menu()
-    iniciar.consultarUsuario()
+    iniciar.menu1()

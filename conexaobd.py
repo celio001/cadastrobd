@@ -30,6 +30,7 @@ class ConsultaUsuarios:
         self.conexao.close()
     
     def exibirUsuario(self, cpf):
+        #comando de pesquisa no banco
         self.usuario = self.sql.execute(f'select * from usuario where CPF="{cpf}"')
         self.resultado = self.usuario.fetchall()# recuperar todas as linhas do resultado
         if not self.resultado:  # Verifica se a lista de resultados está vazia
@@ -44,7 +45,14 @@ class ConsultaUsuarios:
                     print(f"CPF: {cpf}")
                     print(f"Cargo: {cargo}")
 
+    def logar(self, email, senha):
+        self.usuario = self.sql.execute(f'select * from usuario where EMAIL="{email}" and SENHA="{senha}"')
+        self.resultado = self.usuario.fetchall()
+        return self.resultado
+        
+
+
 
 if __name__ == '__main__':
     iniciar = ConsultaUsuarios()
-    iniciar.exibirUsuario(80289002087)
+    iniciar.logar('pessoalcelio0@gmail.com', 'Junior@123')
