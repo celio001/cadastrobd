@@ -104,8 +104,17 @@ class Menu():
     def resetSenha(self):
         print('[ Informar CPF do usuario ]')
         self.cpf = input('Digite:')
+        self.cpfverificado = self.verificarCpf(self.cpf)
         self.novasenha = input('Digitar nova senha:')
-        
+        self.db.resetSenha(self.cpfverificado, self.novasenha)
+        self.menu2()
+
+    def deletarUsuario(self):
+        print('[ Area de exclusão de usuario]\n Informar CPF do usuario')
+        self.user = input('Digitar:')
+        self.userVerificado = self.verificarCpf(self.user)
+        self.db.deletarUser(self.userVerificado)
+
     def verificarCpf(self, cpf):
             self.cpf = cpf
             while self.cpf.isdigit() is not True:
@@ -131,4 +140,4 @@ class Menu():
 
 if __name__ == '__main__':
     iniciar = Menu()
-    iniciar.menu2()
+    iniciar.deletarUsuario()

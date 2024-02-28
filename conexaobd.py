@@ -65,14 +65,26 @@ class ConsultaUsuarios:
     
     
     def resetSenha(self, cpf, senha):
+        self.usuario = self.sql.execute(f'select * from usuario where CPF="{cpf}"')
+        self.resultado = self.usuario.fetchall()# recuperar todas as linhas do resultado
+        if not self.resultado:  # Verifica se a lista de resultados está vazia
+            return print('Nenhum usuário encontrado para o CPF fornecido.')
 
-        
         self.sql.execute(f'update usuario set senha="{senha}" where cpf={cpf};')
         self.conexao.commit()
+        self.conexao.close()
+        return print('Reset realizado com sucesso')
+    
+    def deletarUser(self, cpf):
+        self.usuario = self.sql.execute(f'select * from usuario where CPF="{cpf}"')
+        self.resultado = self.usuario.fetchall()# recuperar todas as linhas do resultado
+        if not self.resultado:  # Verifica se a lista de resultados está vazia
+            return print('Nenhum usuário encontrado para o CPF fornecido.')
+        self.sql.execute(f'delete from usuario where CPF={cpf};')
         
 
 
 
 if __name__ == '__main__':
     iniciar = ConsultaUsuarios()
-    iniciar.resetSenha(80289002087, 'Guis@321')
+    iniciar.resetSenha(80289002087, 'Guis@123')
