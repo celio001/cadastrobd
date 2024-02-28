@@ -8,7 +8,7 @@ class Menu():
 
     def menu1(self):
         print('Bem-vindo ao sistema UserRegistry \n')
-        self.opcaomn1 = int(input('Digite o número do que deseja fazer: \n (1)logar\n (2)Cadastrar\n (3)Sair\n Digite: '))
+        self.opcaomn1 = int(input('Digite o número do que deseja fazer: \n (1)logar\n (2)Mostrar usuarios\n (3)Sair\n Digite: '))
         while self.opcaomn1 <= 0 or self.opcaomn1 >= 3:
             print('!! Digitar uma opção valida !!')
             self.opcaomn1 = input('Digite o número do que deseja fazer: \n (1)logar\n (2)Sair\n')
@@ -16,7 +16,24 @@ class Menu():
         if self.opcaomn1 == 1:
             self.login()
         elif self.opcaomn1 == 2:
-            pass
+            self.exibirusUsuarios1()
+        elif self.opcaomn1 == 3:
+            exit()
+
+    def menu2(self):
+        print('[ Seja bem vindo ]')
+        self.opcaomn2 = int(input('Digite o número do que deseja fazer: \n (1)Cadastrar usuario\n (2)Consultar usuario\n (3)Consultar usuarios\n Digite: '))
+        while self.opcaomn2 <= 0 or self.opcaomn2 >= 3:
+            print('!! Digitar uma opção valida !!')
+            self.opcaomn1 = input('Digite o número do que deseja fazer: \n (1)Cadastrar usuario\n (2)Consultar usuario\n (3)Consultar usuarios\n Digite:')
+
+        if self.opcaomn1 == 1:
+            self.cadastrarUsuarios()
+        elif self.opcaomn1 == 2:
+            self.consultarUsuario()
+        elif self.opcaomn1 == 3:
+            self.exibirusUsuarios2()
+
 
     def login(self):
         print('\nBem-vindo a area de login!')
@@ -35,12 +52,43 @@ class Menu():
                         self.senha = input('Inserir senha:')
                         self.relogin = self.db.logar(self.email, self.senha)
                 else:
-                    pass
+                    self.menu2()
         else:
             print('Login realizado com sucesso!')
+            self.menu2()
+
+    def cadastrarUsuarios(self):
+
+        print('[ Area de cadastro de usuarios ]')
+        self.nome = input('Nome: ')
+        self.email = input('E-mail: ')
+        self.senha = input('Senha: ')
+        self.cpf = input('CPF: ')
+        self.cpfverificado = self.verificarCpf(self.cpf)
+        self.cargo = input('Cargo: ')
+            
+        self.db.cadastrarUsuario(self.nome,self.email,self.senha,self.cpf, self.cargo)
+        
+    def verificarCpf(self, cpf):
+            self.cpf = cpf
+            while self.cpf.isdigit() is not True:
+                if not self.cpf.isdigit():
+                    print('Digitar apenas números!')
+                self.cpf = input('CPF: ')
+                     
+            while True:
+                if len(self.cpf) == 11:
+                    break
+                else:
+                    print('O cpf conter apenas 11 digitos')
+                    self.cpf = input('CPF: ')
+            return int(self.cpf)
     
-    def exibirusUsuarios(self):
-        return self.db.Usuariosdb()
+    def exibirusUsuarios1(self):
+        return self.db.Usuariosdb1()
+    
+    def exibirusUsuarios2(self):
+        return self.db.Usuariosdb2()
     
     def cadastrarUsuarios(self):
         print('[ Area de cadastro de usuarios ]')
@@ -52,6 +100,11 @@ class Menu():
         self.cargo = input('Cargo: ')
         
         self.db.cadastrarUsuario(self.nome,self.email,self.senha,self.cpf, self.cargo)
+    
+    def resetSenha(self):
+        print('[ Informar CPF do usuario ]')
+        self.cpf = input('Digite:')
+        self.novasenha = input('Digitar nova senha:')
         
     def verificarCpf(self, cpf):
             self.cpf = cpf
@@ -78,4 +131,4 @@ class Menu():
 
 if __name__ == '__main__':
     iniciar = Menu()
-    iniciar.menu1()
+    iniciar.menu2()

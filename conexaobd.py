@@ -6,16 +6,27 @@ class ConsultaUsuarios:
         self.sql = self.conexao.cursor()
     
     #Extraindo e mostrando os usuarios da tabela
-    def Usuariosdb(self):
-        self.usuarios =  self.sql.execute('select * from usuario;')
+    def Usuariosdb1(self):
+        self.usuarios =  self.sql.execute('select nome, email, cargo from usuario;')
 
         for self.usuario in self.usuarios:
-            nome, email, senha, cpf, cargo = self.usuario
+            nome, email, cargo = self.usuario
             print('\n')
             print(f"Nome: {nome}")
             print(f"Email: {email}")
-            print(f"Senha: ******")
-            print(f"CPF: *****")
+            print(f"Cargo: {cargo}")
+        self.conexao.close()
+    
+    def Usuariosdb2(self):
+        self.usuarios =  self.sql.execute('select * from usuario;')
+
+        for self.usuario in self.usuarios:
+            nome, email,senha, cpf, cargo = self.usuario
+            print('\n')
+            print(f"Nome: {nome}")
+            print(f"Email: {email}")
+            print(f"senha: {senha}")
+            print(f"cpf: {cpf}")
             print(f"Cargo: {cargo}")
         self.conexao.close()
     
@@ -44,15 +55,24 @@ class ConsultaUsuarios:
                     print(f"Senha: {senha}")
                     print(f"CPF: {cpf}")
                     print(f"Cargo: {cargo}")
+                    self.conexao.close()
 
     def logar(self, email, senha):
-        self.usuario = self.sql.execute(f'select * from usuario where EMAIL="{email}" and SENHA="{senha}"')
+        self.usuario = self.sql.execute(f'select * from usuario where EMAIL="{email}" and SENHA="{senha}";')
         self.resultado = self.usuario.fetchall()
+        self.conexao.close()
         return self.resultado
+    
+    
+    def resetSenha(self, cpf, senha):
+
+        
+        self.sql.execute(f'update usuario set senha="{senha}" where cpf={cpf};')
+        self.conexao.commit()
         
 
 
 
 if __name__ == '__main__':
     iniciar = ConsultaUsuarios()
-    iniciar.logar('pessoalcelio0@gmail.com', 'Junior@123')
+    iniciar.resetSenha(80289002087, 'Guis@321')
