@@ -28,7 +28,7 @@ class ConsultaUsuarios:
             print(f"senha: {senha}")
             print(f"cpf: {cpf}")
             print(f"Cargo: {cargo}")
-        self.conexao.close()
+        print('\n')
     
     #Adicionando usuario a nossa tabela de usuarios
     def cadastrarUsuario(self, nome: str, email: str, senha: str, cpf: int, cargo: str):
@@ -38,7 +38,6 @@ class ConsultaUsuarios:
         self.sql.execute('insert into usuario values(?,?,?,?,?)', self.cadastrar)
     
         self.conexao.commit()
-        self.conexao.close()
     
     def exibirUsuario(self, cpf):
         #comando de pesquisa no banco
@@ -55,12 +54,11 @@ class ConsultaUsuarios:
                     print(f"Senha: {senha}")
                     print(f"CPF: {cpf}")
                     print(f"Cargo: {cargo}")
-                    self.conexao.close()
+                    
 
     def logar(self, email, senha):
         self.usuario = self.sql.execute(f'select * from usuario where EMAIL="{email}" and SENHA="{senha}";')
         self.resultado = self.usuario.fetchall()
-        self.conexao.close()
         return self.resultado
     
     
@@ -72,7 +70,6 @@ class ConsultaUsuarios:
 
         self.sql.execute(f'update usuario set senha="{senha}" where cpf={cpf};')
         self.conexao.commit()
-        self.conexao.close()
         return print('Reset realizado com sucesso')
     
     def deletarUser(self, cpf):
@@ -81,10 +78,11 @@ class ConsultaUsuarios:
         if not self.resultado:  # Verifica se a lista de resultados está vazia
             return print('Nenhum usuário encontrado para o CPF fornecido.')
         self.sql.execute(f'delete from usuario where CPF={cpf};')
+        self.conexao.commit()
         
 
 
 
 if __name__ == '__main__':
     iniciar = ConsultaUsuarios()
-    iniciar.resetSenha(80289002087, 'Guis@123')
+    iniciar.deletarUser(81141842050)
